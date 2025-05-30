@@ -1,36 +1,38 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
+const gql = require('graphql-tag'); // ✅ Important
 require('dotenv').config();
 
-const typeDefs = fs.readFileSync(path.join(__dirname, 'schema.gql'), 'utf8');
+const typeDefs = gql(fs.readFileSync(path.join(__dirname, 'schema.gql'), 'utf8')); // ✅ Parsed SDL
 const resolvers = require('./resolvers');
 
 async function startServer() {
   const app = express();
 
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema: buildSubgraphSchema({
+      typeDefs,
+      resolvers,
+    }),
   });
 
   await server.start();
   server.applyMiddleware({ app });
 
-  mongoose.connect('mongodb://localhost:27017/agroconnect', {
+  await mongoose.connect('mongodb://localhost:27017/agroconnect', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
 
-  mongoose.connection.once('open', () => {
-    console.log('✅ MongoDB connected');
-  });
+  console.log('✅ MongoDB connected');
 
-  app.listen({ port: 4002 }, () =>
-    console.log(`🚀 Order service ready at http://localhost:4002${server.graphqlPath}`)
-  );
+  app.listen({ port: 4002 }, () => {
+    console.log(`🚀 Order service ready at http://localhost:4002${server.graphqlPath}`);
+  });
 }
 
 startServer();

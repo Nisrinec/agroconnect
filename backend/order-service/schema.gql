@@ -1,17 +1,17 @@
-type Order {
-  id: ID!
-  productId: ID!
-  quantity: Int!
-  total: Float!
-}
-
-type Query {
+extend type Query {
   orders: [Order]
   order(id: ID!): Order
 }
 
-type Mutation {
+extend type Mutation {
   createOrder(productId: ID!, quantity: Int!, total: Float!): Order
   updateOrder(id: ID!, quantity: Int, total: Float): Order
   deleteOrder(id: ID!): String
+}
+
+type Order @key(fields: "id") {
+  id: ID!
+  productId: ID!
+  quantity: Int!
+  total: Float!
 }
