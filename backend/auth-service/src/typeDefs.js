@@ -1,16 +1,16 @@
-const { gql } = require('apollo-server');
+const { gql } = require('graphql-tag');
 
 const typeDefs = gql`
-  type User {
+  extend type Query {
+    me: User
+    users: [User!]!
+  }
+
+  type User @key(fields: "id") {
     id: ID!
     username: String!
     email: String!
     role: String!
-  }
-
-  type Query {
-    me: User
-    users: [User!]!
   }
 
   type Mutation {

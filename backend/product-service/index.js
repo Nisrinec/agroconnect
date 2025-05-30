@@ -1,20 +1,36 @@
 require('dotenv').config();
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('@apollo/server');
+const { startStandaloneServer } = require('@apollo/server/standalone');
 const { readFileSync } = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
+const fs = require('fs');
+const { gql } = require('graphql-tag');
 const resolvers = require('./resolvers');
+const { buildSubgraphSchema } = require('@apollo/subgraph'); // ✅ IMPORTANT
 
-const typeDefs = readFileSync(path.join(__dirname, 'schema.gql'), 'utf8');
+const typeDefs = gql(
+  fs.readFileSync(path.join(__dirname, 'schema.gql'), 'utf8')
+);
 
-const server = new ApolloServer({ typeDefs, resolvers });
+async function startServer() {
+  // Connect to MongoDB
+  await mongoose.connect(process.env.MONGO_URI);
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
-  .then(() => {
-    console.log('✅ Connected to MongoDB');
-    return server.listen();
-  })
-  .then(({ url }) => {
-    console.log(`🚀 Product Service running at ${url}`);
-  })
-  .catch(err => console.error('❌ Connection error:', err));
+  console.log('✅ Connected to MongoDB');
+
+  // Create Apollo Server as a Subgraph
+  const server = new ApolloServer({
+    schema: buildSubgraphSchema([{ typeDefs, resolvers }]), // ✅ Federation schema
+  });
+
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 }, // ✅ Ensure this matches what the gateway expects
+  });
+
+  console.log(`🚀 Product subgraph ready at ${url}`);
+}
+
+startServer().catch(err => {
+  console.error('❌ Failed to start server:', err);
+});
