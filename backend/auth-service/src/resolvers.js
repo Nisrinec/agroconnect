@@ -8,13 +8,20 @@ const resolvers = {
       if (!user) return null;
       return await User.findById(user.id);
     },
+
+    // Admin-only: Get all users
+    users: async (_, __, { user }) => {
+      if (!user || user.role !== 'admin') {
+        throw new Error('Access denied');
+      }
+      return await User.find();
+    },
   },
 
   Mutation: {
-    register: async (_, { username, email, password }, { JWT_SECRET }) => {
-      const existingUser = await User.findOne({
-        $or: [{ username }, { email }],
-      });
+    // Accept role optionally during registration
+    register: async (_, { username, email, password, role }, { JWT_SECRET }) => {
+      const existingUser = await User.findOne({ $or: [{ username }, { email }] });
       if (existingUser) {
         throw new Error('User already exists');
       }
@@ -25,11 +32,18 @@ const resolvers = {
         username,
         email,
         password: hashedPassword,
+        role: role || 'buyer', // Default to buyer if role not provided
       });
+
       await newUser.save();
 
       const token = jwt.sign(
-        { id: newUser._id, username: newUser.username, email: newUser.email },
+        {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role,
+        },
         JWT_SECRET,
         { expiresIn: '1h' }
       );
@@ -49,12 +63,34 @@ const resolvers = {
       }
 
       const token = jwt.sign(
-        { id: user._id, username: user.username, email: user.email },
+        {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
         JWT_SECRET,
         { expiresIn: '1h' }
       );
 
       return token;
+    },
+
+    updateUserRole: async (_, { id, role }, { user }) => {
+      if (!user || user.role !== 'admin') {
+        throw new Error('Access denied');
+      }
+
+      return await User.findByIdAndUpdate(id, { role }, { new: true });
+    },
+
+    deleteUser: async (_, { id }, { user }) => {
+      if (!user || user.role !== 'admin') {
+        throw new Error('Access denied');
+      }
+
+      await User.findByIdAndDelete(id);
+      return 'User deleted';
     },
   },
 };
