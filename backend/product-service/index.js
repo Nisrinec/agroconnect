@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const { gql } = require('graphql-tag');
 const resolvers = require('./resolvers');
+const startConsumer = require('./kafka/consumer');
 const { buildSubgraphSchema } = require('@apollo/subgraph'); // ✅ IMPORTANT
 
 const typeDefs = gql(
@@ -30,6 +31,8 @@ async function startServer() {
 
   console.log(`🚀 Product subgraph ready at ${url}`);
 }
+
+await startConsumer();
 
 startServer().catch(err => {
   console.error('❌ Failed to start server:', err);
