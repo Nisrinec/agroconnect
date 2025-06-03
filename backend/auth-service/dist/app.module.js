@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const apollo_1 = require("@nestjs/apollo");
 const hello_resolver_1 = require("./hello.resolver");
+const user_resolver_1 = require("./user/user.resolver");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,7 +24,7 @@ exports.AppModule = AppModule = __decorate([
                 playground: true,
             }),
         ],
-        providers: [hello_resolver_1.HelloResolver],
+        providers: [hello_resolver_1.HelloResolver, user_resolver_1.UserResolver],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

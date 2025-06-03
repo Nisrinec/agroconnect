@@ -12,6 +12,7 @@ import { UserResolver } from './user/user.resolver';
       playground: true,
     }),
   ],
-  providers: [HelloResolver],
+  providers: [HelloResolver, UserResolver], // ← Add UserResolver here
 })
 export class AppModule {}
+
