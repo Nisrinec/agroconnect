@@ -1,7 +1,10 @@
+// auth.resolver.ts
+
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { User } from './user.schema';
 import { UserType } from './dto/user.type';
+import { CreateUserInput } from './dto/create-user.input';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -9,9 +12,8 @@ export class AuthResolver {
 
   @Mutation(() => UserType)
   async register(
-    @Args('email') email: string,
-    @Args('password') password: string,
+    @Args('createUserInput') createUserInput: CreateUserInput
   ) {
-    return this.authService.register(email, password);
+    return this.authService.register(createUserInput);
   }
 }

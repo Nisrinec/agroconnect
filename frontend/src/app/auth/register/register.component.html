@@ -1,5 +1,14 @@
-<form (submit)="register(); $event.preventDefault()">
-  <input [(ngModel)]="email" placeholder="Email" name="email" required />
-  <input [(ngModel)]="password" placeholder="Password" type="password" name="password" required />
+<form class="form-container" (submit)="register(); $event.preventDefault()">
+  <h2>Register</h2>
+
+  <input [(ngModel)]="username" name="username" placeholder="Username" required />
+  <input [(ngModel)]="email" name="email" placeholder="Email" type="email" required />
+  <input [(ngModel)]="password" name="password" placeholder="Password" type="password" required />
+
+  <select [(ngModel)]="role" name="role">
+    <option value="farmer">Farmer</option>
+    <option value="buyer">Buyer</option>
+  </select>
+
   <button type="submit">Register</button>
 </form>

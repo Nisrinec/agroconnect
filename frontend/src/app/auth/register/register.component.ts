@@ -1,37 +1,37 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { REGISTER_MUTATION } from '../../graphql/auth.graphql';
+import { REGISTER_MUTATION } from '../../graphql/mutations';
 
 @Component({
-  selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  selector: 'app-register',
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
+  imports: [CommonModule, FormsModule],
 })
 export class RegisterComponent {
+  username = '';
   email = '';
   password = '';
+  role = 'buyer'; // default
 
   constructor(private apollo: Apollo) {}
 
-  register() {
+
+   register() {
     this.apollo.mutate({
       mutation: REGISTER_MUTATION,
       variables: {
+        username: this.username,
         email: this.email,
         password: this.password,
-      },
-    }).subscribe({
-      next: (result: any) => {
-        console.log('Registered:', result.data.register.access_token);
-        localStorage.setItem('token', result.data.register.access_token);
-      },
-      error: (err) => {
-        console.error('Registration error:', err);
+        role: this.role,
       }
+    }).subscribe({
+      next: (result) => console.log('Registered:', result),
+      error: (error) => console.error('Error:', error),
     });
   }
 }

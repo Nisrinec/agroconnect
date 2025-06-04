@@ -1,8 +1,8 @@
+import { User, UserDocument } from './user.schema';
 import { Model } from 'mongoose';
-import { User } from './user.schema';
+import { CreateUserInput } from './dto/create-user.input';
 export declare class AuthService {
     private userModel;
-    constructor(userModel: Model<User>);
-    register(email: string, password: string, role?: string): Promise<User>;
-    findByEmail(email: string): Promise<User | null>;
+    constructor(userModel: Model<UserDocument>);
+    register(createUserInput: CreateUserInput): Promise<User>;
 }

@@ -1,18 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from './user.schema';
 import { Model } from 'mongoose';
-import { User } from './user.schema';
+import { CreateUserInput } from './dto/create-user.input';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+  ) {}
 
-  async register(email: string, password: string, role = 'user'): Promise<User> {
-    const newUser = new this.userModel({ email, password, role });
-    return newUser.save();
-  }
+  async register(createUserInput: CreateUserInput): Promise<User> {
+    const { email, password, role, username } = createUserInput;
 
-  async findByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ email }).exec();
+    // Optionally, hash the password here before saving (recommended)
+    const newUser = new this.userModel({
+      email,
+      password,
+      role,
+      username,
+    });
+
+    return newUser.save(); // Save user to MongoDB and return
   }
 }

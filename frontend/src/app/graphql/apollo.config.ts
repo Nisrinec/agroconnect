@@ -1,3 +1,4 @@
+// src/app/graphql/apollo.config.ts
 import { provideApollo } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 
@@ -8,4 +9,5 @@ export function createApollo(): ApolloClientOptions<any> {
   };
 }
 
+// ✅ Export the function call with function reference, NOT execution
 export const provideApolloClient = provideApollo(createApollo);

@@ -17,22 +17,22 @@ const graphql_1 = require("@nestjs/graphql");
 const auth_service_1 = require("./auth.service");
 const user_schema_1 = require("./user.schema");
 const user_type_1 = require("./dto/user.type");
+const create_user_input_1 = require("./dto/create-user.input");
 let AuthResolver = class AuthResolver {
     authService;
     constructor(authService) {
         this.authService = authService;
     }
-    async register(email, password) {
-        return this.authService.register(email, password);
+    async register(createUserInput) {
+        return this.authService.register(createUserInput);
     }
 };
 exports.AuthResolver = AuthResolver;
 __decorate([
     (0, graphql_1.Mutation)(() => user_type_1.UserType),
-    __param(0, (0, graphql_1.Args)('email')),
-    __param(1, (0, graphql_1.Args)('password')),
+    __param(0, (0, graphql_1.Args)('createUserInput')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "register", null);
 exports.AuthResolver = AuthResolver = __decorate([
