@@ -1,22 +1,26 @@
-// src/app/auth/auth-routing.module.ts
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./auth/login/login.component').then((m) => m.LoginComponent),
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: 'register',
-    loadComponent: () =>
-      import('./auth/register/register.component').then((m) => m.RegisterComponent),
+    path: '',
+    redirectTo: 'auth/login',  // default route redirects to login
+    pathMatch: 'full',
   },
+  {
+    path: '**',
+    redirectTo: 'auth/login',  // wildcard redirects to login
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AuthRoutingModule {}
+export class AppRoutingModule {}

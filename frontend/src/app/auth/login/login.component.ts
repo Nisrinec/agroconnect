@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { LOGIN_MUTATION } from '../../graphql/auth.graphql';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // re
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  templateUrl: './login.component.html',
 })
 export class LoginComponent {
   email = '';
