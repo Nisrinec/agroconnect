@@ -1,6 +1,9 @@
 {
   "dependencies": {
+    "@apollo/server": "^4.12.2",
+    "@nestjs/apollo": "^13.1.0",
     "@nestjs/mongoose": "^11.0.3",
+    "graphql": "^16.11.0",
     "mongoose": "^8.15.1"
   },
   "devDependencies": {

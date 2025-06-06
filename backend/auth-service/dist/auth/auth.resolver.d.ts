@@ -1,8 +1,10 @@
 import { AuthService } from './auth.service';
+import { RegisterInput } from './dto/register-input.dto';
 import { User } from './user.schema';
-import { CreateUserInput } from './dto/create-user.input';
 export declare class AuthResolver {
-    private authService;
+    private readonly authService;
     constructor(authService: AuthService);
-    register(createUserInput: CreateUserInput): Promise<User>;
+    healthCheck(): string;
+    register(input: RegisterInput): Promise<string>;
+    users(): Promise<User[]>;
 }

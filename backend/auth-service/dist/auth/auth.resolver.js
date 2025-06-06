@@ -15,28 +15,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const auth_service_1 = require("./auth.service");
+const register_input_dto_1 = require("./dto/register-input.dto");
 const user_schema_1 = require("./user.schema");
-const user_type_1 = require("./dto/user.type");
-const create_user_input_1 = require("./dto/create-user.input");
 let AuthResolver = class AuthResolver {
     authService;
     constructor(authService) {
         this.authService = authService;
     }
-    async register(createUserInput) {
-        return this.authService.register(createUserInput);
+    healthCheck() {
+        return 'Auth service is running';
+    }
+    async register(input) {
+        await this.authService.register(input.username, input.email, input.password, input.role);
+        return 'User registered successfully';
+    }
+    async users() {
+        return this.authService.findAll();
     }
 };
 exports.AuthResolver = AuthResolver;
 __decorate([
-    (0, graphql_1.Mutation)(() => user_type_1.UserType),
-    __param(0, (0, graphql_1.Args)('createUserInput')),
+    (0, graphql_1.Query)(() => String),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", String)
+], AuthResolver.prototype, "healthCheck", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => String),
+    __param(0, (0, graphql_1.Args)('input')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [register_input_dto_1.RegisterInput]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "register", null);
+__decorate([
+    (0, graphql_1.Query)(() => [user_schema_1.User]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthResolver.prototype, "users", null);
 exports.AuthResolver = AuthResolver = __decorate([
-    (0, graphql_1.Resolver)(() => user_schema_1.User),
+    (0, graphql_1.Resolver)(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthResolver);
 //# sourceMappingURL=auth.resolver.js.map

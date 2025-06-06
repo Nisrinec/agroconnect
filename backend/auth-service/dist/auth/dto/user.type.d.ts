@@ -1,5 +1,6 @@
 export declare class UserType {
-    _id: string;
+    id: string;
+    name: string;
     email: string;
     role: string;
 }

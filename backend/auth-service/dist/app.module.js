@@ -10,21 +10,33 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const apollo_1 = require("@nestjs/apollo");
-const hello_resolver_1 = require("./hello.resolver");
-const user_resolver_1 = require("./user/user.resolver");
+const config_1 = require("@nestjs/config");
+const mongoose_1 = require("@nestjs/mongoose");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            mongoose_1.MongooseModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: (configService) => {
+                    const uri = configService.get('MONGO_URI');
+                    if (!uri) {
+                        throw new Error('MONGO_URI is not defined in environment variables');
+                    }
+                    return { uri };
+                },
+                inject: [config_1.ConfigService],
+            }),
             graphql_1.GraphQLModule.forRoot({
                 driver: apollo_1.ApolloDriver,
                 autoSchemaFile: true,
-                playground: true,
             }),
+            auth_module_1.AuthModule,
         ],
-        providers: [hello_resolver_1.HelloResolver, user_resolver_1.UserResolver],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

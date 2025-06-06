@@ -1,11 +1,16 @@
 import gql from 'graphql-tag';
 
+// export const REGISTER_MUTATION = gql`
+//   mutation Register($username: String!, $email: String!, $password: String!, $role: String!) {
+//     register(createUserInput: { username: $username, email: $email, password: $password, role: $role }) {
+//       id
+//       username
+//     }
+//   }
+// `;
 export const REGISTER_MUTATION = gql`
-  mutation Register($username: String!, $email: String!, $password: String!, $role: String!) {
-    register(createUserInput: { username: $username, email: $email, password: $password, role: $role }) {
-      id
-      username
-    }
+  mutation Register($input: RegisterInput!) {
+    register(input: $input)
   }
 `;
 

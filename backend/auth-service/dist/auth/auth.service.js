@@ -15,22 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const user_schema_1 = require("./user.schema");
 const mongoose_2 = require("mongoose");
+const user_schema_1 = require("./user.schema");
 let AuthService = class AuthService {
     userModel;
     constructor(userModel) {
         this.userModel = userModel;
     }
-    async register(createUserInput) {
-        const { email, password, role, username } = createUserInput;
-        const newUser = new this.userModel({
-            email,
-            password,
-            role,
-            username,
-        });
+    async register(username, email, password, role) {
+        const newUser = new this.userModel({ username, email, password, role });
         return newUser.save();
+    }
+    async findAll() {
+        return this.userModel.find().exec();
     }
 };
 exports.AuthService = AuthService;

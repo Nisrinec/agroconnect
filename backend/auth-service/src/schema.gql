@@ -1,15 +1,24 @@
+# src/auth/auth.graphql
 type User {
   id: ID!
-  username: String!
+  name: String!
   email: String!
+  role: String!
 }
 
-type Query {
-  hello: String!
-  me: User
+input RegisterInput {
+  name: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
 }
 
 type Mutation {
-  register(username: String!, email: String!, password: String!, role: String): String!
-  login(username: String!, password: String!): String
+  register(input: RegisterInput!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
 }

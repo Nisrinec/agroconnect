@@ -1,12 +1,17 @@
-// app.module.ts or auth.module.ts
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthRoutingModule } from './auth-routing.module';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
-import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './user.schema';
-
-@Module({
+@NgModule({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
+    CommonModule,
+    ReactiveFormsModule,
+    AuthRoutingModule,
+    LoginComponent,       // ✅ Import instead of declaring
+    RegisterComponent     // ✅ Import instead of declaring
   ],
-  providers: [AuthService, AuthResolver],
 })
 export class AuthModule {}

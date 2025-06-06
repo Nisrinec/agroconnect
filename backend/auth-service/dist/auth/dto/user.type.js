@@ -12,7 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserType = void 0;
 const graphql_1 = require("@nestjs/graphql");
 let UserType = class UserType {
-    _id;
+    id;
+    name;
     email;
     role;
 };
@@ -20,7 +21,11 @@ exports.UserType = UserType;
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.ID),
     __metadata("design:type", String)
-], UserType.prototype, "_id", void 0);
+], UserType.prototype, "id", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], UserType.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
