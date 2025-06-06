@@ -11,19 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthPayload = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const user_type_1 = require("./user.type");
+const user_output_dto_1 = require("./user-output.dto");
 let AuthPayload = class AuthPayload {
-    token;
+    accessToken;
     user;
 };
 exports.AuthPayload = AuthPayload;
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], AuthPayload.prototype, "token", void 0);
+], AuthPayload.prototype, "accessToken", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => user_type_1.UserType),
-    __metadata("design:type", user_type_1.UserType)
+    (0, graphql_1.Field)(() => user_output_dto_1.UserOutput),
+    __metadata("design:type", user_output_dto_1.UserOutput)
 ], AuthPayload.prototype, "user", void 0);
 exports.AuthPayload = AuthPayload = __decorate([
     (0, graphql_1.ObjectType)()

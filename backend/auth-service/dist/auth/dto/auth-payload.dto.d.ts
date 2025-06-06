@@ -1,5 +1,5 @@
-import { UserType } from './user.type';
+import { UserOutput } from './user-output.dto';
 export declare class AuthPayload {
-    token: string;
-    user: UserType;
+    accessToken: string;
+    user: UserOutput;
 }

@@ -1,3 +1,4 @@
+// src/auth/dto/register-input.dto.ts
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()

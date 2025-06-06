@@ -1,25 +1,23 @@
 // src/auth/user.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-export type UserDocument = User & Document;
-
-@ObjectType() // ✅ for GraphQL
+@ObjectType()
 @Schema()
 export class User {
   @Field(() => ID)
   _id: string;
 
   @Field()
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   username: string;
 
   @Field()
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true }) // password is not exposed in GraphQL
+  @Prop({ required: true }) // Don't expose password to GraphQL
   password: string;
 
   @Field()
@@ -27,4 +25,5 @@ export class User {
   role: string;
 }
 
+export type UserDocument = User & Document;
 export const UserSchema = SchemaFactory.createForClass(User);

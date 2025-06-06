@@ -1,37 +1,55 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import { CommonModule } from '@angular/common';
-import { LOGIN_MUTATION } from '../../graphql/mutations';
+import gql from 'graphql-tag';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule, RouterModule],
 })
 export class LoginComponent {
   username = '';
   password = '';
 
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo, private router: Router) {}
 
-   login() {
-  this.apollo.mutate({
+  login() {
+  const LOGIN_MUTATION = gql`
+    mutation Login($username: String!, $password: String!) {
+      login(username: $username, password: $password) {
+        accessToken
+        user {
+          username
+          email
+          role
+        }
+      }
+    }
+  `;
+
+  this.apollo.mutate<any>({
     mutation: LOGIN_MUTATION,
     variables: {
       username: this.username,
       password: this.password,
-    },
+    }
   }).subscribe({
-    next: (result: any) => {
-      console.log('Login success:', result);
-      localStorage.setItem('token', result.data.login.access_token);
+    next: (result) => {
+      const loginData = result.data?.login;
+      console.log('Login successful:', loginData);
+      // Optional: save token
+      // localStorage.setItem('token', loginData.accessToken);
+      this.router.navigate(['/pages/welcome']); // or your desired route
     },
-    error: (error: any) => {
-      console.error('Login error:', error);
+    error: (error) => {
+      console.error('Login failed', error);
     }
   });
 }
+
 }

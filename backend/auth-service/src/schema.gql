@@ -1,13 +1,13 @@
 # src/auth/auth.graphql
 type User {
   id: ID!
-  name: String!
+  username: String!
   email: String!
   role: String!
 }
 
 input RegisterInput {
-  name: String!
+  username: String!
   email: String!
   password: String!
   role: String!
@@ -20,5 +20,5 @@ type AuthPayload {
 
 type Mutation {
   register(input: RegisterInput!): AuthPayload!
-  login(email: String!, password: String!): AuthPayload!
+  login(username: String!, password: String!): AuthPayload!
 }

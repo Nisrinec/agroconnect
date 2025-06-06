@@ -16,7 +16,8 @@ exports.AuthResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const auth_service_1 = require("./auth.service");
 const register_input_dto_1 = require("./dto/register-input.dto");
-const user_schema_1 = require("./user.schema");
+const auth_payload_dto_1 = require("./dto/auth-payload.dto");
+const user_output_dto_1 = require("./dto/user-output.dto");
 let AuthResolver = class AuthResolver {
     authService;
     constructor(authService) {
@@ -28,6 +29,9 @@ let AuthResolver = class AuthResolver {
     async register(input) {
         await this.authService.register(input.username, input.email, input.password, input.role);
         return 'User registered successfully';
+    }
+    async login(username, password) {
+        return this.authService.login(username, password);
     }
     async users() {
         return this.authService.findAll();
@@ -48,7 +52,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "register", null);
 __decorate([
-    (0, graphql_1.Query)(() => [user_schema_1.User]),
+    (0, graphql_1.Mutation)(() => auth_payload_dto_1.AuthPayload),
+    __param(0, (0, graphql_1.Args)('username')),
+    __param(1, (0, graphql_1.Args)('password')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], AuthResolver.prototype, "login", null);
+__decorate([
+    (0, graphql_1.Query)(() => [user_output_dto_1.UserOutput]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

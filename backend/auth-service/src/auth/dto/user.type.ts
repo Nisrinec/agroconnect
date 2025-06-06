@@ -6,7 +6,7 @@ export class UserType {
   id: string;
 
   @Field()
-  name: string;
+  username: string;
 
   @Field()
   email: string;

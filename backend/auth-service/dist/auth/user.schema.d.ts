@@ -1,5 +1,4 @@
 import { Document } from 'mongoose';
-export type UserDocument = User & Document;
 export declare class User {
     _id: string;
     username: string;
@@ -7,6 +6,7 @@ export declare class User {
     password: string;
     role: string;
 }
+export type UserDocument = User & Document;
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, Document<unknown, any, User, any> & User & Required<{
     _id: string;
 }> & {

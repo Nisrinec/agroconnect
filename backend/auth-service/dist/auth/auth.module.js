@@ -9,32 +9,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const passport_1 = require("@nestjs/passport");
 const jwt_1 = require("@nestjs/jwt");
-const config_1 = require("@nestjs/config");
 const auth_service_1 = require("./auth.service");
 const auth_resolver_1 = require("./auth.resolver");
 const user_schema_1 = require("./user.schema");
-const jwt_strategy_1 = require("./strategies/jwt.strategy");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({ isGlobal: true }),
             mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
-            passport_1.PassportModule,
-            jwt_1.JwtModule.registerAsync({
-                imports: [config_1.ConfigModule],
-                inject: [config_1.ConfigService],
-                useFactory: async (configService) => ({
-                    secret: configService.get('JWT_SECRET'),
-                    signOptions: { expiresIn: '1d' },
-                }),
+            jwt_1.JwtModule.register({
+                secret: 'secretKey123',
+                signOptions: { expiresIn: '1d' },
             }),
         ],
-        providers: [auth_service_1.AuthService, auth_resolver_1.AuthResolver, jwt_strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, auth_resolver_1.AuthResolver],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

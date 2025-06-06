@@ -26,7 +26,7 @@ __decorate([
 ], User.prototype, "_id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, mongoose_1.Prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "username", void 0);
 __decorate([

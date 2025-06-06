@@ -1,8 +1,9 @@
-// src/auth/auth.resolver.ts
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { RegisterInput } from './dto/register-input.dto';
-import { User } from './user.schema';
+import { LoginInput } from './dto/login-input.dto';
+import { AuthPayload } from './dto/auth-payload.dto';
+import { UserOutput } from './dto/user-output.dto';
 
 @Resolver()
 export class AuthResolver {
@@ -24,9 +25,16 @@ export class AuthResolver {
     return 'User registered successfully';
   }
 
-  // ✅ Add this to fetch users
-  @Query(() => [User])
-  async users(): Promise<User[]> {
+  @Mutation(() => AuthPayload)
+  async login(
+    @Args('username') username: string,
+    @Args('password') password: string,
+  ): Promise<AuthPayload> {
+    return this.authService.login(username, password);
+  }
+
+  @Query(() => [UserOutput])
+  async users(): Promise<UserOutput[]> {
     return this.authService.findAll();
   }
 }
