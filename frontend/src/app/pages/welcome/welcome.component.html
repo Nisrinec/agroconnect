@@ -1,1 +1,17 @@
-<p>welcome works!</p>
+<div class="form-container">
+  <h2>Hi {{ username }}!</h2>
+
+  <div *ngIf="role === 'farmer'">
+    <p>Welcome, farmer! Ready to add a new product?</p>
+    <button (click)="goToAddProduct()">Add Product</button>
+  </div>
+
+  <div *ngIf="role === 'buyer'">
+    <p>Welcome, buyer! Browse products from local farmers.</p>
+    <button (click)="goToViewProducts()">View Products</button>
+  </div>
+
+  <div *ngIf="role !== 'buyer' && role !== 'farmer'">
+    <p>Unknown role. Please contact support.</p>
+  </div>
+</div>

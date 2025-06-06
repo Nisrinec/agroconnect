@@ -32,24 +32,27 @@ export class LoginComponent {
     }
   `;
 
-  this.apollo.mutate<any>({
-    mutation: LOGIN_MUTATION,
-    variables: {
-      username: this.username,
-      password: this.password,
-    }
-  }).subscribe({
-    next: (result) => {
-      const loginData = result.data?.login;
-      console.log('Login successful:', loginData);
-      // Optional: save token
-      // localStorage.setItem('token', loginData.accessToken);
-      this.router.navigate(['/pages/welcome']); // or your desired route
-    },
-    error: (error) => {
-      console.error('Login failed', error);
-    }
-  });
-}
+  this.apollo.mutate({
+  mutation: LOGIN_MUTATION,
+  variables: {
+    username: this.username,
+    password: this.password,
+  }
+}).subscribe({
+  next: (result: any) => {
+    const { accessToken, user } = result.data.login;
+
+    // ✅ Store token and user in localStorage
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('user', JSON.stringify(user));
+
+    // ✅ Navigate to welcome page
+    this.router.navigate(['/pages/welcome']);
+  },
+  error: (error) => {
+    console.error('Login failed', error);
+  }
+});
+  }
 
 }
