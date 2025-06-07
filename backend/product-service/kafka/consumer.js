@@ -7,7 +7,7 @@ const kafka = new Kafka({
 
 const consumer = kafka.consumer({ groupId: 'farmer-group' });
 
-const run = async () => {
+const startConsumer = async () => {
   await consumer.connect();
   await consumer.subscribe({ topic: 'order-events', fromBeginning: true });
 
@@ -19,4 +19,4 @@ const run = async () => {
   });
 };
 
-run().catch(console.error);
+module.exports = startConsumer;

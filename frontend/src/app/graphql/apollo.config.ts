@@ -4,7 +4,7 @@ import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 
 export function createApollo(): ApolloClientOptions<any> {
   return {
-    uri: 'http://localhost:3000/graphql',
+    uri: 'http://localhost:4000/graphql',
     cache: new InMemoryCache(),
   };
 }

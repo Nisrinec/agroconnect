@@ -25,15 +25,24 @@ async function startServer() {
     schema: buildSubgraphSchema([{ typeDefs, resolvers }]), // ✅ Federation schema
   });
 
+  // Pass CORS options inside startStandaloneServer options
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 }, // ✅ Ensure this matches what the gateway expects
+    cors: {
+      origin: '*',  // Allow all origins for dev, or specify your Angular app URL
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: false,
+    },
   });
 
   console.log(`🚀 Product subgraph ready at ${url}`);
 }
 
-await startConsumer();
+async function bootstrap() {
+  await startConsumer();
+  await startServer();
+}
 
-startServer().catch(err => {
-  console.error('❌ Failed to start server:', err);
+bootstrap().catch(err => {
+  console.error('❌ Failed to start:', err);
 });

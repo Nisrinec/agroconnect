@@ -1,17 +1,17 @@
-<div class="form-container">
-  <h2>Hi {{ username }}!</h2>
+<div class="form-container" *ngIf="userRole === 'farmer'">
+  <h2>Hi Farmer!</h2>
+  <p>Click below to add a product:</p>
 
-  <div *ngIf="role === 'farmer'">
-    <p>Welcome, farmer! Ready to add a new product?</p>
-    <button (click)="goToAddProduct()">Add Product</button>
-  </div>
+  <form (ngSubmit)="createProduct()">
+    <input type="text" placeholder="Product Name" [(ngModel)]="product.name" name="name" required />
+    <input type="text" placeholder="Description" [(ngModel)]="product.description" name="description" />
+    <input type="number" placeholder="Price" [(ngModel)]="product.price" name="price" required />
+    <button type="submit">Add Product</button>
+  </form>
+</div>
 
-  <div *ngIf="role === 'buyer'">
-    <p>Welcome, buyer! Browse products from local farmers.</p>
-    <button (click)="goToViewProducts()">View Products</button>
-  </div>
-
-  <div *ngIf="role !== 'buyer' && role !== 'farmer'">
-    <p>Unknown role. Please contact support.</p>
-  </div>
+<div class="form-container" *ngIf="userRole === 'buyer'">
+  <h2>Hi Buyer!</h2>
+  <p>Click below to view products:</p>
+  <button (click)="goToProducts()">View Products</button>
 </div>
