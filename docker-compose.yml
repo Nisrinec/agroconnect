@@ -1,33 +1,36 @@
-version: '3.8'
 services:
-  mongo:
-    image: mongo
-    container_name: mongo
+  auth-service:
+    build: ./backend/auth-service
+    container_name: auth-service
     ports:
-      - '27017:27017'
+      - "4001:4001"
+    # ... other config
 
-  redis:
-    image: redis
-    container_name: redis
+  product-service:
+    build: ./backend/product-service
+    container_name: product-service
     ports:
-      - '6379:6379'
+      - "4002:4002"
+    # ... other config
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper
+  order-service:
+    build: ./backend/order-service
+    container_name: order-service
     ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+      - "4003:4003"
+    # ... other config
 
-  kafka:
-    image: confluentinc/cp-kafka
+  gateway:
+    build: ./backend/gateway
+    container_name: gateway
+    ports:
+      - "3000:3000"
+    # ... other config
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "4200:80"
     depends_on:
-      - zookeeper
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      - gateway

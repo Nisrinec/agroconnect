@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "build": "nest build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,5 +19,8 @@
     "kafkajs": "^2.2.4",
     "mongoose": "^8.15.1"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.7"
+  }
 }
