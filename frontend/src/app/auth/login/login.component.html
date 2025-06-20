@@ -1,0 +1,12 @@
+<form class="form-container" (submit)="login(); $event.preventDefault()">
+  <h2>Sign in</h2>
+
+  <input [(ngModel)]="username" name="username" placeholder="Username" required />
+  <input [(ngModel)]="password" name="password" placeholder="Password" type="password" required />
+
+  <button type="submit">Login</button>
+</form>
+
+<p class="register-link">
+  Not registered yet? <a routerLink="/auth/register">Click here</a> to sign up.
+</p>

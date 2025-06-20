@@ -1,0 +1,21 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']  # assuming NestJS build script
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'run', 'deploy', 'product-service',
+        '--region=europe-west1',
+        '--platform=managed',
+        '--allow-unauthenticated',
+        '--image=gcr.io/$PROJECT_ID/product-service:$SHORT_SHA'
+      ]
+
+images:
+  - 'gcr.io/$PROJECT_ID/product-service:$SHORT_SHA'
+
+timeout: '1200s'
