@@ -1,21 +1,20 @@
-# Base image
-FROM node:18-alpine
+# Use Node.js image
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy dependencies files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy source files
+# Copy the rest of the code
 COPY . .
 
-# Build the NestJS app
+# Build the TypeScript code
 RUN npm run build
 
-# Expose internal port
-EXPOSE 3000
-
-# Start the app
+# Run the compiled code
 CMD ["node", "dist/main"]

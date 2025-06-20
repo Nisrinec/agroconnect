@@ -4,12 +4,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "nest build",
+    "start:dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
     "@apollo/server": "^4.12.1",
     "@apollo/subgraph": "^2.10.2",
@@ -17,10 +18,15 @@
     "dotenv": "^16.5.0",
     "graphql": "^16.11.0",
     "kafkajs": "^2.2.4",
-    "mongoose": "^8.15.1"
+    "mongoose": "^8.15.1",
+    "@nestjs/common": "^11.1.3",
+    "@nestjs/core": "^11.1.3",
+    "@nestjs/graphql": "^13.0.0",
+    "@nestjs/platform-express": "^11.1.3",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1"
   },
-  "description": "",
   "devDependencies": {
-    "@nestjs/cli": "^11.0.7"
+    "nodemon": "^3.0.1"
   }
 }

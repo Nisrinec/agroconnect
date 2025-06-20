@@ -24,7 +24,7 @@ async function startServer() {
   await server.start();
   server.applyMiddleware({ app });
 
-  await mongoose.connect('mongodb://localhost:27017/agroconnect', {
+  await mongoose.connect('mongodb://mongo:27017/agroconnect', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

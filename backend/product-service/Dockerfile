@@ -1,21 +1,19 @@
-# Base image
-FROM node:18-alpine
+# Use Node.js base image
+FROM node:18
 
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package.json and package-lock.json first (to cache dependencies)
 COPY package*.json ./
-RUN npm install
 
-# Copy source files
+# Install dependencies
+RUN npm install --legacy-peer-deps
+
+# Copy the rest of your app source code
 COPY . .
 
-# Build the NestJS app
-RUN npm run build
+# No build step needed since you run plain JS
 
-# Expose internal port
-EXPOSE 3000
-
-# Start the app
-CMD ["node", "dist/main"]
+# Start the app with index.js
+CMD ["node", "index.js"]
